@@ -101,24 +101,10 @@ class Roboraj:
 				pp('Connection was lost, reconnecting.')
 				sock = self.irc.get_irc_socket_object()
 			
-			if config['debug']:
-				print data
+			# if config['debug']:
+				# print repr(data)
 			
 			# check for ping, reply with pong
 			irc.check_for_ping(data)
 			
-			self.add_mode(irc.check_for_mode(data))
-			
-			if irc.check_for_message(data):
-				message_dict = irc.get_message(data)
-				
-				channel = message_dict['channel']
-				message = message_dict['message']
-				username = message_dict['username']
-				
-				ppi(channel, message, username)
-				
-				if is_command(message) and message[1:] in self.commands:
-					self.commands[message[1:]](channel, message)
-				else:
-					self.update_db(username, message)
+			irc.parse_data(data)
