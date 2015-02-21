@@ -6,25 +6,53 @@ import threading
 
 mode_re = re.compile(r':jtv MODE #((?:[a-z][a-z0-9_]*)) (.)(.) ((?:[a-z][a-z0-9_]*))', re.IGNORECASE|re.DOTALL)
 
+def set_init(d, name):
+	if name not in d:
+		d[name] = set()
+		
+def dict_init(d, name):
+	if name not in d:
+		d[name] = {}
+
 class info(object):
+	channels = {}
+	users = {}
 	def __init__(self, line):
 		print line
 		self.command = line[1].strip(":")
-		self.subject = line[3]
-		self.args = line[4:]
+		if self.command == "PRIVMSG":
+			self.channel = "#"+line[2]
+			self.subject = line[4]
+			self.subcommand = line[3].strip(":")
+			self.arg = line[5]
+		elif self.command == "MODE":
+			self.channel = line[2]
+			self.subject = line[4]
+			self.subcommand = None
+			self.arg = line[3]
+		set_init(self.channels, self.channel)
+		self.curr_channel = self.channels[self.channel]
+		dict_init(self.users, self.subject)
+		self.curr_user = self.users[self.subject]
 		
 	def print_(self):
-		print self.command, self.subject, self.args
+		print self.__dict__
+		
+	def handle(self):
+		if self.subcommand:
+			self.curr_user[self.subcommand] = self.arg
+		elif self.command == "MODE"
+			if self.arg == "+o":
+				self.curr_channel.add(self.subject)
+			elif self.arg == "-o"
+				self.curr_channel.remove(self.subject)
+		else:
+			self.print_()
 
 class irc:
 	def __init__(self, config):
 		self.config = config
 		self._lock = threading.Lock()
-	
-	def check_is_command(self, message, valid_commands):
-		for command in valid_commands:
-			if command == message:
-				return True
 	
 	def check_for_connected(self, data):
 		if re.match(r'^:.+ 001 .+ :connected to TMI$', data):
@@ -51,7 +79,8 @@ class irc:
 		line = line.split()
 		if line:
 			if line[0] == "jtv":
-				info(line).print_()
+				info(line).handle()
+				print info.users
 			elif line[0].startswith("jtv!"):
 				pass
 				# print "Twitch Message"
