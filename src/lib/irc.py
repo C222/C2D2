@@ -6,6 +6,7 @@ import threading
 import pickle
 
 mode_re = re.compile(r':jtv MODE #((?:[a-z][a-z0-9_]*)) (.)(.) ((?:[a-z][a-z0-9_]*))', re.IGNORECASE|re.DOTALL)
+HR_IN_SEC = 60*60
 
 info_file = "info.db"
 
@@ -16,6 +17,12 @@ def set_init(d, name):
 def dict_init(d, name):
 	if name not in d:
 		d[name] = {}
+		
+def safe_dict_get(d, mem):
+	try:
+		return d[mem]
+	except:
+		return None
 
 class info(object):
 	channels = {}
@@ -40,26 +47,11 @@ class info(object):
 	def print_(self):
 		print self.__dict__
 		
-	@staticmethod
-	def save():
-		pickle.dump((info.channels, info.users), open(info_file, "w"))
-		
-	@staticmethod
-	def load():
-		try:
-			f = pickle.load(open(info_file, "r"))
-		except:
-			pass
-		else:
-			print f
-			info.channels = f[0]
-			info.users = f[0]
-		
 	def handle(self):
 		if self.subcommand:
 			if self.subcommand == "SPECIALUSER":
 				dict_init(self.curr_user, self.subcommand)
-				self.curr_user[self.subcommand][self.arg] = time.time()
+				self.curr_user[self.subcommand][self.arg][self.channel] = time.time()
 			else:
 				self.curr_user[self.subcommand] = self.arg
 		elif self.command == "MODE":
@@ -71,6 +63,42 @@ class info(object):
 			print "Unrecognised",
 			self.print_()
 		info.save()
+		
+	@staticmethod
+	def save():
+		pickle.dump((info.channels, info.users), open(info_file, "w"))
+		
+	@staticmethod
+	def load():
+		try:
+			f = pickle.load(open(info_file, "r"))
+		except:
+			print "No existing DB to load"
+		else:
+			info.channels = f[0]
+			info.users = f[0]
+		
+	@staticmethod
+	def get_info(user):
+		special = safe_dict_get(info.users[user], "SPECIALUSER")
+		is_mod = [x for x in info.channels if user in info.channels[x]]
+		
+		return special,is_mod
+		
+	@staticmethod
+	def is_sub(user, channel):
+		s, mod = info.get_info(user)
+		
+		return  s != None and \
+				"subscriber" in s and \
+				channel in s["subscriber"] and \
+				(time.time() - s["subscriber"][channel]) < HR_IN_SEC
+		
+	@staticmethod
+	def is_mod(user, channel):
+		s, mod = info.get_info(user)
+		
+		return channel in mod
 info.load()
 
 class irc:
@@ -103,7 +131,9 @@ class irc:
 		line = line.split()
 		if line:
 			if line[0] == "jtv":
-				info(line).handle()
+				i = info(line)
+				i.handle()
+				print info.get_info(i.subject)
 			elif line[0].startswith("jtv!"):
 				pass
 				# print "Twitch Message"
