@@ -1,7 +1,4 @@
 .DS_STORE
 *.pyc
+*.db
 src/config/config.py
-database
-database.modes
-databasebak
-databasebak.modes
