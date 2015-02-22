@@ -3,8 +3,11 @@ from functions_general import *
 import cron
 import thread
 import threading
+import pickle
 
 mode_re = re.compile(r':jtv MODE #((?:[a-z][a-z0-9_]*)) (.)(.) ((?:[a-z][a-z0-9_]*))', re.IGNORECASE|re.DOTALL)
+
+info_file = "info.db"
 
 def set_init(d, name):
 	if name not in d:
@@ -18,7 +21,6 @@ class info(object):
 	channels = {}
 	users = {}
 	def __init__(self, line):
-		print line
 		self.command = line[1].strip(":")
 		if self.command == "PRIVMSG":
 			self.channel = "#"+line[2]
@@ -38,16 +40,38 @@ class info(object):
 	def print_(self):
 		print self.__dict__
 		
+	@staticmethod
+	def save():
+		pickle.dump((info.channels, info.users), open(info_file, "w"))
+		
+	@staticmethod
+	def load():
+		try:
+			f = pickle.load(open(info_file, "r"))
+		except:
+			pass
+		else:
+			print f
+			info.channels = f[0]
+			info.users = f[0]
+		
 	def handle(self):
 		if self.subcommand:
-			self.curr_user[self.subcommand] = self.arg
-		elif self.command == "MODE"
+			if self.subcommand == "SPECIALUSER":
+				dict_init(self.curr_user, self.subcommand)
+				self.curr_user[self.subcommand][self.arg] = time.time()
+			else:
+				self.curr_user[self.subcommand] = self.arg
+		elif self.command == "MODE":
 			if self.arg == "+o":
 				self.curr_channel.add(self.subject)
-			elif self.arg == "-o"
+			elif self.arg == "-o":
 				self.curr_channel.remove(self.subject)
 		else:
+			print "Unrecognised",
 			self.print_()
+		info.save()
+info.load()
 
 class irc:
 	def __init__(self, config):
@@ -80,7 +104,6 @@ class irc:
 		if line:
 			if line[0] == "jtv":
 				info(line).handle()
-				print info.users
 			elif line[0].startswith("jtv!"):
 				pass
 				# print "Twitch Message"
