@@ -4,11 +4,10 @@ import cron
 import thread
 import threading
 import pickle
+import shutil
 
 mode_re = re.compile(r':jtv MODE #((?:[a-z][a-z0-9_]*)) (.)(.) ((?:[a-z][a-z0-9_]*))', re.IGNORECASE|re.DOTALL)
 HR_IN_SEC = 60*60
-
-info_file = "info.db"
 
 def set_init(d, name):
 	if name not in d:
@@ -25,6 +24,7 @@ def safe_dict_get(d, mem):
 		return None
 
 class info(object):
+	filename = "info.db"
 	channels = {}
 	users = {}
 	def __init__(self, line):
@@ -66,12 +66,20 @@ class info(object):
 		
 	@staticmethod
 	def save():
-		pickle.dump((info.channels, info.users), open(info_file, "w"))
+		pickle.dump((info.channels, info.users), open(info.filename, "w"))
+		
+	@staticmethod
+	def backup():
+		try:
+			shutil.copy(info.filename, info.filename+".bak")
+		except Exception as e:
+			print e
 		
 	@staticmethod
 	def load():
+		info.backup()
 		try:
-			f = pickle.load(open(info_file, "r"))
+			f = pickle.load(open(info.filename, "r"))
 		except:
 			print "No existing DB to load"
 		else:
