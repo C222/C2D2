@@ -6,10 +6,12 @@ import random
 import multiprocessing
 import platform
 import signal
+import re
 
 import muirc
 from credentials import *
 import hooks
+import handlers
 
 TWITCH_SERVERS = ["ws://192.16.64.174/",
 				  "ws://192.16.64.175/",
@@ -27,13 +29,18 @@ TWITCH_SERVERS = ["ws://192.16.64.174/",
 
 logging.getLogger().setLevel(logging.DEBUG)
 
+LINK_RE = None
 
 def list_get_default(s, index, default=None):
 	return s[index] if len(s) > index else default
 
 
 def spawn_bot(channel, limit):
+	global LINK_RE
 	chat = WS_IRC(channel, limit)
+	if LINK_RE is None:
+		logging.info("Compiling RE")
+		LINK_RE = re.compile(r"((?:https\:\/\/)|(?:http\:\/\/)|(?:www\.))?([a-zA-Z0-9\-\.]+\.[a-zA-Z]{1,3}(?:\??)[a-zA-Z0-9\-\._\?\,\'\/\\\+&%\$#\=~]+)", re.IGNORECASE|re.DOTALL)
 	chat.start()
 
 
@@ -49,6 +56,8 @@ class Message(object):
 	def __init__(self, msg):
 		self.msg = msg
 		self.parse()
+		self.link = None
+		self.link_re = LINK_RE
 
 	def parse(self):
 		if self.msg.startswith("@"):
@@ -61,7 +70,15 @@ class Message(object):
 		self.msg = muirc.translate(self.msg)
 		self.name = self.tags.get("display-name", "")
 		self.chat = self.msg.get("params", [])
-		self.chat = list_get_default(self.chat, 1, "")
+		self.chat = list_get_default(self.chat, 1)
+
+	def check_for_link(self):
+		m = self.link_re.search(self.chat)
+		if m:
+			self.link = m.groups()
+			return True
+		else:
+			return False
 
 class WS_IRC(object):
 	def __init__(self, channel, limit):
@@ -69,6 +86,11 @@ class WS_IRC(object):
 		self.URL = random.choice(TWITCH_SERVERS)
 		self.run = False
 		self.limit = limit
+		self.hooks = hooks.Hooks(self)
+		self.hooks.create_hook_channel("chat")
+		self.hooks.create_hook_channel("link")
+		self.hooks.register_hook(handlers.on_chat, "chat")
+		self.hooks.register_hook(handlers.on_link, "link")
 
 	def start(self):
 		self.run = True
@@ -93,7 +115,8 @@ class WS_IRC(object):
 		if message.startswith("PING"):
 			self.send("PONG\n", True)
 		msg = Message(message)
-		logging.info("%s: %s: %s", self.channel, msg.name, msg.chat)
+		if msg.chat is not None:
+			self.hooks.run_hooks("chat", msg)
 
 	def send(self, msg, blocking=False):
 		if blocking:
@@ -121,7 +144,7 @@ if __name__ == "__main__":
 		multiprocessing.freeze_support()
 
 	limit = multiprocessing.Semaphore(30)
-	channels = ["xsmak"]
+	channels = ["xsmak", "c222_"]
 	processes = []
 
 	def end_clean(num, frame):
@@ -142,6 +165,6 @@ if __name__ == "__main__":
 
 	while True:
 		time.sleep(30)
-		logging.info(sem_val(limit))
+		logging.debug(sem_val(limit))
 		while sem_val(limit) < 30:
 			limit.release()

@@ -1,13 +1,14 @@
-class Hooks(object):
-    def __init__(self):
+import logging
 
+class Hooks(object):
+    def __init__(self, wsirc):
+        self.wsirc = wsirc
         self.registered_hooks = {}
-        self.create_hook_channel('all')
 
     def run_hooks(self, channel, msg):
         for h in self.registered_hooks[channel]:
             logging.debug("Running %s from %s", h.__name__, channel)
-            h(msg)
+            h(self.wsirc, msg, self)
 
     def make_hook_cb(self, channel):
         def manager_cb(msg):
