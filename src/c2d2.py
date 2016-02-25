@@ -1,16 +1,9 @@
-import websocket
-import thread
 import time
 import logging
-import random
 import multiprocessing
 import platform
 import signal
-import re
-import string
 
-from libs import muirc
-from credentials import *
 from wsirc.wsirc import WS_IRC
 
 logging.getLogger().setLevel(logging.INFO)
