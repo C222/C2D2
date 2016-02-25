@@ -91,6 +91,7 @@ class WS_IRC(object):
 		self.hooks = hooks.Hooks(self)
 		self.hooks.create_hook_channel("chat")
 		self.hooks.create_hook_channel("link")
+		self.hooks.create_hook_channel("command")
 
 	def start(self):
 		self.run = True
@@ -118,25 +119,33 @@ class WS_IRC(object):
 		if msg.chat is not None:
 			self.hooks.run_hooks("chat", msg)
 
-	def send(self, msg, blocking=False):
+	def send(self, msg, blocking=False, debug=True):
+		if debug:
+			logging.debug("Sending %s", msg)
 		if blocking:
 			self.limit.acquire()
 			self.ws.send(msg)
 		else:
 			if self.limit.acquire(False):
 				self.ws.send(msg)
+				
+	def chat(self, msg, blocking=False):
+		#@sent-ts=1456368432817 PRIVMSG #oshi7 :hello
+		structure = "@sent-ts={} PRIVMSG #{} :{}\n"
+		self.send(structure.format(str(int(time.time())), self.channel, msg), blocking)
 
 	def run_loop(self):
 		while self.run:
 			self.send("CAP REQ :twitch.tv/tags twitch.tv/commands\n", True)
 			logging.info("Logging in as %s", NICK)
-			self.send("PASS {}\n".format(OAUTH), True)
+			self.send("PASS {}\n".format(OAUTH), True, False)
 			self.send("NICK {}\n".format(NICK), True)
 			time.sleep(1)
 			logging.info("Joining %s", self.channel)
 			self.send("JOIN #{}\n".format(self.channel), True)
 			self.hooks.register_hook(handlers.on_chat, "chat")
 			self.hooks.register_hook(handlers.on_link, "link")
+			self.hooks.register_hook(handlers.on_command, "command")
 			while True:
 				time.sleep(.1)
 			ws.close()
@@ -146,7 +155,7 @@ if __name__ == "__main__":
 		multiprocessing.freeze_support()
 
 	limit = multiprocessing.Semaphore(30)
-	channels = ["xsmak", "c222_"]
+	channels = ["c222_"]
 	processes = []
 
 	def end_clean(num, frame):
