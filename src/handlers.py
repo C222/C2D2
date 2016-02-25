@@ -7,18 +7,20 @@ requests.packages.urllib3.disable_warnings()
 
 PROMPT = "|"
 
+"""
+Utility
+"""
+
 def permissions(mod=False, sub=False):
 	def fun_check(function):
 		def perm_function(wsirc, msg, hooks):
 			if mod and msg.tags['mod'] == '1':
 				function(wsirc, msg, hooks)
-				return
-			if sub and msg.tags['subscriber'] == '1':
+			elif sub and msg.tags['subscriber'] == '1':
 				function(wsirc, msg, hooks)
-				return
-			if check_owner(wsirc, msg):
+			elif check_owner(wsirc, msg):
 				function(wsirc, msg, hooks)
-				return
+			return
 		return perm_function
 	return fun_check
 
@@ -33,6 +35,21 @@ def compose_url(groups):
 def check_owner(wsirc, msg):
 	return wsirc.channel == msg.name.lower()
 
+"""
+COMMANDS
+"""
+
+@permissions(mod=True, sub=True)
+def cmd_ban(wsirc, msg, hooks):
+	args = msg.chat.lstrip(PROMPT).split(" ")[1:]
+	wsirc.chat("{} has been banned from {}. Kappa".format("".join(args), wsirc.channel))
+
+"""
+EVENTS
+"""
+COMMANDS = {
+"ban": cmd_ban
+}
 def on_chat(wsirc, msg, hooks):
 	logging.debug("%s: %s: %s", wsirc.channel, msg.name, msg.chat)
 	if msg.check_for_link():
@@ -41,8 +58,9 @@ def on_chat(wsirc, msg, hooks):
 		hooks.run_hooks("command", msg)
 
 def on_command(wsirc, msg, hooks):
-	command = msg.chat.split(" ")
-	wsirc.chat("As you wish, {} OpieOP".format(msg.name))
+	command = msg.chat.lstrip(PROMPT).split(" ")[0]
+	if command in COMMANDS:
+		COMMANDS[command](wsirc, msg, hooks)
 
 def on_link(wsirc, msg, hooks):
 	url = compose_url(msg.link)
@@ -57,3 +75,4 @@ def on_link(wsirc, msg, hooks):
 		if url != r.url:
 			wsirc.chat("{} linked to {} DansGame".format(msg.name, r.url))
 			logging.info("%s returned %s from %s", url, r.status_code, r.url)
+			
