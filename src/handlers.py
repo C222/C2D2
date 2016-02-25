@@ -5,6 +5,23 @@ import urllib3
 
 requests.packages.urllib3.disable_warnings()
 
+PROMPT = "|"
+
+def permissions(mod=False, sub=False):
+	def fun_check(function):
+		def perm_function(wsirc, msg, hooks):
+			if mod and msg.tags['mod'] == '1':
+				function(wsirc, msg, hooks)
+				return
+			if sub and msg.tags['subscriber'] == '1':
+				function(wsirc, msg, hooks)
+				return
+			if check_owner(wsirc, msg):
+				function(wsirc, msg, hooks)
+				return
+		return perm_function
+	return fun_check
+
 def compose_url(groups):
 	url = groups[1]
 	if groups[0] is not None:
@@ -13,13 +30,19 @@ def compose_url(groups):
 		url = "http://" + url
 	return url
 
+def check_owner(wsirc, msg):
+	return wsirc.channel == msg.name.lower()
+
 def on_chat(wsirc, msg, hooks):
 	logging.debug("%s: %s: %s", wsirc.channel, msg.name, msg.chat)
 	if msg.check_for_link():
 		hooks.run_hooks("link", msg)
+	if msg.chat.startswith(PROMPT):
+		hooks.run_hooks("command", msg)
 
 def on_command(wsirc, msg, hooks):
-	return
+	command = msg.chat.split(" ")
+	wsirc.chat("As you wish, {} OpieOP".format(msg.name))
 
 def on_link(wsirc, msg, hooks):
 	url = compose_url(msg.link)
