@@ -28,6 +28,18 @@ TWITCH_SERVERS = ["ws://192.16.64.174/",
 				  "ws://192.16.64.211/"]
 
 logging.getLogger().setLevel(logging.DEBUG)
+logging.getLogger('requests').setLevel(logging.CRITICAL)
+logging.getLogger('requests.packages').setLevel(logging.CRITICAL)
+logging.getLogger('requests.packages.urllib3').setLevel(logging.CRITICAL)
+logging.getLogger('requests.packages.urllib3.connectionpool').setLevel(logging.CRITICAL)
+logging.getLogger('requests.packages.urllib3.poolmanager').setLevel(logging.CRITICAL)
+logging.getLogger('requests.packages.urllib3.util').setLevel(logging.CRITICAL)
+logging.getLogger('requests.packages.urllib3.util.retry').setLevel(logging.CRITICAL)
+logging.getLogger('urllib3').setLevel(logging.CRITICAL)
+logging.getLogger('urllib3.connectionpool').setLevel(logging.CRITICAL)
+logging.getLogger('urllib3.poolmanager').setLevel(logging.CRITICAL)
+logging.getLogger('urllib3.util').setLevel(logging.CRITICAL)
+logging.getLogger('urllib3.util.retry').setLevel(logging.CRITICAL)
 
 LINK_RE = None
 
@@ -130,7 +142,6 @@ class WS_IRC(object):
 				self.ws.send(msg)
 				
 	def chat(self, msg, blocking=False):
-		#@sent-ts=1456368432817 PRIVMSG #oshi7 :hello
 		structure = "@sent-ts={} PRIVMSG #{} :{}\n"
 		self.send(structure.format(str(int(time.time())), self.channel, msg), blocking)
 
@@ -155,7 +166,7 @@ if __name__ == "__main__":
 		multiprocessing.freeze_support()
 
 	limit = multiprocessing.Semaphore(30)
-	channels = ["c222_"]
+	channels = ["c222_", "iwinuloselol"]
 	processes = []
 
 	def end_clean(num, frame):
@@ -173,7 +184,7 @@ if __name__ == "__main__":
 
 	for p in processes:
 		p.start()
-
+	
 	while True:
 		time.sleep(30)
 		logging.debug(sem_val(limit))
