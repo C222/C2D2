@@ -140,7 +140,7 @@ class WS_IRC(object):
 		else:
 			if self.limit.acquire(False):
 				self.ws.send(msg)
-				
+
 	def chat(self, msg, blocking=False):
 		structure = "@sent-ts={} PRIVMSG #{} :{}\n"
 		self.send(structure.format(str(int(time.time())), self.channel, msg), blocking)
@@ -166,7 +166,7 @@ if __name__ == "__main__":
 		multiprocessing.freeze_support()
 
 	limit = multiprocessing.Semaphore(30)
-	channels = ["c222_", "iwinuloselol", "oshi7"]
+	channels = ["c222_", "oshi7"]
 	processes = []
 
 	def end_clean(num, frame):
@@ -184,7 +184,7 @@ if __name__ == "__main__":
 
 	for p in processes:
 		p.start()
-	
+
 	while True:
 		time.sleep(30)
 		logging.debug(sem_val(limit))

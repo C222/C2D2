@@ -39,6 +39,16 @@ def compose_url(groups):
 def check_owner(wsirc, msg):
 	return wsirc.channel == msg.name.lower()
 
+def compare_url(a, b):
+	a = a.split("/")[2].replace(".", "")
+	b = b.split("/")[2].replace(".", "")
+
+	logging.info("%s, %s", a, b)
+	logging.info(a in b)
+	logging.info(b in a)
+
+	return (a in b) or (b in a)
+
 """
 COMMANDS
 """
@@ -50,7 +60,7 @@ def cmd_ban(wsirc, msg, hooks):
 
 def cmd_imgur(wsirc, msg, hooks):
 	args = msg.chat.lstrip(PROMPT).split(" ")[1:]
-	
+
 	try:
 		r = requests.get("https://api.imgur.com/2/image/{}".format(args[0]))
 	except Exception as e:
@@ -61,7 +71,7 @@ def cmd_imgur(wsirc, msg, hooks):
 @permissions(mod=True, sub=True)
 def cmd_streamer(wsirc, msg, hooks):
 	args = msg.chat.lstrip(PROMPT).split(" ")[1:]
-	
+
 	try:
 		users = requests.get("https://api.twitch.tv/kraken/users/{}".format(args[0]))
 		channels = requests.get("https://api.twitch.tv/kraken/channels/{}".format(args[0]))
@@ -78,11 +88,11 @@ def cmd_streamer(wsirc, msg, hooks):
 			wsirc.chat("{}: {}".format(users.get("display_name", args[0]), users.get("bio", "")))
 			wsirc.chat("They have been on Twitch for {} months and they last played {}.".format(since, channels.get("game", "nothing")))
 			wsirc.chat("Follow them at {}".format(channels["url"]))
-			
+
 @permissions(mod=True, sub=True)
 def cmd_status(wsirc, msg, hooks):
 	args = msg.chat.lstrip(PROMPT).split(" ")[1:]
-	
+
 	try:
 		streams = requests.get("https://api.twitch.tv/kraken/streams/{}".format(args[0]))
 	except Exception as e:
@@ -104,10 +114,10 @@ def cmd_status(wsirc, msg, hooks):
 
 def cmd_potatoes(wsirc, msg, hooks):
 	wsirc.chat("Potatoes Potatoes Potatoes <3")
-	
+
 def cmd_about(wsirc, msg, hooks):
 	wsirc.chat("I am C2D2, an experimental bot. I have a select few commands available and I expand shortened links. My source code is at https://github.com/C222/C2D2 . If I break, complain to C222_. Channel owners can make me leave with '~part'")
-	
+
 @permissions()
 def cmd_part(wsirc, msg, hooks):
 	wsirc.chat("Bye!")
@@ -139,10 +149,10 @@ COOLDOWNS = {}
 
 def on_command(wsirc, msg, hooks):
 	command = msg.chat.lstrip(PROMPT).split(" ")[0]
-	
+
 	lasttime = COOLDOWNS.get(command, 0)
 	sincelast = time.time() - lasttime
-	
+
 	if command in COMMANDS and sincelast > COOLDOWN_WAIT:
 		COOLDOWNS[command] = time.time()
 		COMMANDS[command](wsirc, msg, hooks)
@@ -157,7 +167,6 @@ def on_link(wsirc, msg, hooks):
 	except requests.exceptions.ConnectTimeout as e:
 		pass
 	else:
-		if url != r.url:
+		if not compare_url(url, r.url):
 			wsirc.chat("{} linked to {} DansGame".format(msg.name, r.url.replace(".", "(dot)")))
 			logging.info("%s returned %s from %s", url, r.status_code, r.url)
-			
