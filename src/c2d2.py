@@ -68,7 +68,9 @@ class Message(object):
 		else:
 			self.tags = {}
 		self.msg = muirc.translate(self.msg)
-		self.name = self.tags.get("display-name", "")
+		self.name = self.tags.get("display-name", False)
+		if not self.name:
+			self.name = self.msg.get("nick", None)
 		self.chat = self.msg.get("params", [])
 		self.chat = list_get_default(self.chat, 1)
 
@@ -89,8 +91,6 @@ class WS_IRC(object):
 		self.hooks = hooks.Hooks(self)
 		self.hooks.create_hook_channel("chat")
 		self.hooks.create_hook_channel("link")
-		self.hooks.register_hook(handlers.on_chat, "chat")
-		self.hooks.register_hook(handlers.on_link, "link")
 
 	def start(self):
 		self.run = True
@@ -135,6 +135,8 @@ class WS_IRC(object):
 			time.sleep(1)
 			logging.info("Joining %s", self.channel)
 			self.send("JOIN #{}\n".format(self.channel), True)
+			self.hooks.register_hook(handlers.on_chat, "chat")
+			self.hooks.register_hook(handlers.on_link, "link")
 			while True:
 				time.sleep(.1)
 			ws.close()
