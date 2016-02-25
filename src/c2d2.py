@@ -7,6 +7,7 @@ import multiprocessing
 import platform
 import signal
 import re
+import string
 
 from libs import muirc
 from credentials import *
@@ -27,19 +28,7 @@ TWITCH_SERVERS = ["ws://192.16.64.174/",
 				  "ws://192.16.64.210/",
 				  "ws://192.16.64.211/"]
 
-logging.getLogger().setLevel(logging.DEBUG)
-logging.getLogger('requests').setLevel(logging.CRITICAL)
-logging.getLogger('requests.packages').setLevel(logging.CRITICAL)
-logging.getLogger('requests.packages.urllib3').setLevel(logging.CRITICAL)
-logging.getLogger('requests.packages.urllib3.connectionpool').setLevel(logging.CRITICAL)
-logging.getLogger('requests.packages.urllib3.poolmanager').setLevel(logging.CRITICAL)
-logging.getLogger('requests.packages.urllib3.util').setLevel(logging.CRITICAL)
-logging.getLogger('requests.packages.urllib3.util.retry').setLevel(logging.CRITICAL)
-logging.getLogger('urllib3').setLevel(logging.CRITICAL)
-logging.getLogger('urllib3.connectionpool').setLevel(logging.CRITICAL)
-logging.getLogger('urllib3.poolmanager').setLevel(logging.CRITICAL)
-logging.getLogger('urllib3.util').setLevel(logging.CRITICAL)
-logging.getLogger('urllib3.util.retry').setLevel(logging.CRITICAL)
+logging.getLogger().setLevel(logging.INFO)
 
 LINK_RE = None
 
@@ -104,6 +93,10 @@ class WS_IRC(object):
 		self.hooks.create_hook_channel("chat")
 		self.hooks.create_hook_channel("link")
 		self.hooks.create_hook_channel("command")
+
+	@staticmethod
+	def is_symbol(c):
+		return c not in (string.ascii_letters + string.digits)
 
 	def start(self):
 		self.run = True

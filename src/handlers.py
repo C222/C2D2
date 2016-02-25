@@ -4,8 +4,10 @@ import httplib
 import urllib3
 from datetime import datetime
 import time
+import platform
 
-requests.packages.urllib3.disable_warnings()
+if platform.system() == "Windows":
+	requests.packages.urllib3.disable_warnings()
 
 PROMPT = "~"
 BOTS = ["nightbot", "iwinzbot"]
