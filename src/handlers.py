@@ -75,8 +75,8 @@ def cmd_streamer(wsirc, msg, hooks):
 		else:
 			joined = datetime.strptime(users["created_at"],"%Y-%m-%dT%H:%M:%SZ")
 			since = int((((datetime.utcnow() - joined).days)/365.0) * 12.0)
-			wsirc.chat("{}: {}".format(users["display_name"], users["bio"]))
-			wsirc.chat("They have been on Twitch for {} months and they last played {}".format(since, channels["game"]))
+			wsirc.chat("{}: {}".format(users.get("display_name", args[0]), users.get("bio", "")))
+			wsirc.chat("They have been on Twitch for {} months and they last played {}.".format(since, channels.get("game", "nothing")))
 			wsirc.chat("Follow them at {}".format(channels["url"]))
 			
 @permissions(mod=True, sub=True)
@@ -104,6 +104,15 @@ def cmd_status(wsirc, msg, hooks):
 
 def cmd_potatoes(wsirc, msg, hooks):
 	wsirc.chat("Potatoes Potatoes Potatoes <3")
+	
+def cmd_about(wsirc, msg, hooks):
+	wsirc.chat("I am C2D2, an experimental bot. I have a select few commands available and I expand shortened links. My source code is at https://github.com/C222/C2D2 . If I break, complain to C222_. Channel owners can make me leave with '~part'")
+	
+@permissions()
+def cmd_part(wsirc, msg, hooks):
+	wsirc.chat("Bye!")
+	wsirc.run = False
+	exit()
 
 """
 EVENTS
@@ -113,7 +122,9 @@ COMMANDS = {
 	"imgur": cmd_imgur,
 	"status": cmd_status,
 	"streamer": cmd_streamer,
-	"potatoes": cmd_potatoes
+	"potatoes": cmd_potatoes,
+	"about": cmd_about,
+	"part": cmd_part
 }
 def on_chat(wsirc, msg, hooks):
 	logging.debug("%s: %s: %s", wsirc.channel, msg.name, msg.chat)

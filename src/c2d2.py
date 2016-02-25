@@ -166,7 +166,7 @@ if __name__ == "__main__":
 		multiprocessing.freeze_support()
 
 	limit = multiprocessing.Semaphore(30)
-	channels = ["c222_", "iwinuloselol"]
+	channels = ["c222_", "iwinuloselol", "oshi7"]
 	processes = []
 
 	def end_clean(num, frame):
