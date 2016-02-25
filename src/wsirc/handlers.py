@@ -34,7 +34,7 @@ def compose_url(groups):
 	url = groups[1]
 	if groups[0] is not None:
 		url = groups[0] + url
-	else:
+	if not url.lower().startswith("http://"):
 		url = "http://" + url
 	return url
 
@@ -44,10 +44,6 @@ def check_owner(wsirc, msg):
 def compare_url(a, b):
 	a = a.split("/")[2].replace(".", "")
 	b = b.split("/")[2].replace(".", "")
-
-	logging.info("%s, %s", a, b)
-	logging.info(a in b)
-	logging.info(b in a)
 
 	return (a in b) or (b in a)
 
@@ -139,9 +135,9 @@ COMMANDS = {
 	"part": cmd_part
 }
 def on_chat(wsirc, msg, hooks):
-	logging.debug("%s: %s: %s", wsirc.channel, msg.name, msg.chat)
 	if msg.name.lower() in BOTS:
 		return
+	logging.info("%s: %s: %s", wsirc.channel, msg.name, msg.chat)
 	if msg.check_for_link():
 		hooks.run_hooks("link", msg)
 	if msg.chat.startswith(PROMPT):
