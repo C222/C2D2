@@ -8,7 +8,7 @@ import platform
 import signal
 import re
 
-import muirc
+from libs import muirc
 from credentials import *
 import hooks
 import handlers
