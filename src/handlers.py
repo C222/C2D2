@@ -3,10 +3,13 @@ import requests
 import httplib
 import urllib3
 from datetime import datetime
+import time
 
 requests.packages.urllib3.disable_warnings()
 
-PROMPT = "|"
+PROMPT = "~"
+BOTS = ["nightbot", "iwinzbot"]
+COOLDOWN_WAIT = 60
 
 """
 Utility
@@ -92,13 +95,15 @@ def cmd_status(wsirc, msg, hooks):
 			if streams["stream"] is None:
 				wsirc.chat("{} is currently offline.".format(args[0]))
 			else:
-				wsirc.chat("{} is currently streaming {} at {}p@{} to {} viewers.".format(
+				wsirc.chat("{} is currently streaming {} at {}p@{}fps to {} viewers.".format(
 				streams["stream"]["channel"]["display_name"],
 				streams["stream"]["game"],
 				streams["stream"]["video_height"],
 				int(streams["stream"]["average_fps"]),
 				streams["stream"]["viewers"]))
-	
+
+def cmd_potatoes(wsirc, msg, hooks):
+	wsirc.chat("Potatoes Potatoes Potatoes <3")
 
 """
 EVENTS
@@ -107,18 +112,28 @@ COMMANDS = {
 	"ban": cmd_ban,
 	"imgur": cmd_imgur,
 	"status": cmd_status,
-	"streamer": cmd_streamer
+	"streamer": cmd_streamer,
+	"potatoes": cmd_potatoes
 }
 def on_chat(wsirc, msg, hooks):
 	logging.debug("%s: %s: %s", wsirc.channel, msg.name, msg.chat)
+	if msg.name.lower() in BOTS:
+		return
 	if msg.check_for_link():
 		hooks.run_hooks("link", msg)
 	if msg.chat.startswith(PROMPT):
 		hooks.run_hooks("command", msg)
 
+COOLDOWNS = {}
+
 def on_command(wsirc, msg, hooks):
 	command = msg.chat.lstrip(PROMPT).split(" ")[0]
-	if command in COMMANDS:
+	
+	lasttime = COOLDOWNS.get(command, 0)
+	sincelast = time.time() - lasttime
+	
+	if command in COMMANDS and sincelast > COOLDOWN_WAIT:
+		COOLDOWNS[command] = time.time()
 		COMMANDS[command](wsirc, msg, hooks)
 
 def on_link(wsirc, msg, hooks):
@@ -132,6 +147,6 @@ def on_link(wsirc, msg, hooks):
 		pass
 	else:
 		if url != r.url:
-			wsirc.chat("{} linked to {} DansGame".format(msg.name, r.url))
+			wsirc.chat("{} linked to {} DansGame".format(msg.name, r.url.replace(".", "(dot)")))
 			logging.info("%s returned %s from %s", url, r.status_code, r.url)
 			
