@@ -25,6 +25,8 @@ API
 
    wsirc
    message
+   config
+   credentials
 
 
 Indices and Tables
