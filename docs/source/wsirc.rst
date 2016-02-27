@@ -1,4 +1,4 @@
-WebSocket IRC Module
+WebSocket IRC
 **********************
 
 .. autoclass:: wsirc.wsirc.WS_IRC

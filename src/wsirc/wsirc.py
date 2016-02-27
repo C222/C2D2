@@ -33,6 +33,8 @@ class WS_IRC(object):
 	Attributes:
 		channel: The IRC channel joined.
 		URL: The ws_irc server connected to.
+		run: Thread run flag
+		hooks: The Hooks object.
 	'''
 	def __init__(self, channel, limit):
 		'''A connection to a Twitch WebSocket IRC server
@@ -158,7 +160,6 @@ class WS_IRC(object):
 		'''The function that runs inside the thread after open
 
 		Will run until self.run is False and the WebSocket closes.
-
 		'''
 		while self.run:
 			self.send("CAP REQ :twitch.tv/tags twitch.tv/commands\n", True)

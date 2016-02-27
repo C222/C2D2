@@ -9,13 +9,31 @@ def list_get_default(s, index, default=None):
 	return s[index] if len(s) > index else default
 
 class Message(object):
+	'''Representation for a single IRC message.
+	
+	Params:
+		msg: Parsed dictionary if IRC message elements. Includes: nick, user, host, command, params
+		link: A potential link detected in the message, otherwise None.
+		link_re: Local reference to the copiled link regex used.
+		tags: A dictionary representing the IRCv3 tags.
+		chat: The chat message sent to the channel.
+		name: the name of the sender of the message to the channel.
+	'''
 	def __init__(self, msg):
+		'''
+		Args:
+			msg: the raw message string to be parsed.
+		'''
 		self.msg = msg
-		self.parse()
 		self.link = None
 		self.link_re = LINK_RE
+		self.parse()
 
 	def parse(self):
+		'''Triggers the parsing of the message string.
+		
+		This usually takes place during construction.
+		'''
 		if self.msg.startswith("@"):
 			split = self.msg.index(" :")
 			self.tags = self.msg[1:split].split(";")
@@ -31,6 +49,12 @@ class Message(object):
 		self.chat = list_get_default(self.chat, 1)
 
 	def check_for_link(self):
+		'''Triggers the regex detection of any links in the chat message.
+		
+		This usually takes place if there is a chat message.
+		
+		Returns: True if there is a link detected.
+		'''
 		m = self.link_re.search(self.chat)
 		if m:
 			self.link = m.groups()
