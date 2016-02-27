@@ -5,6 +5,8 @@
 
 C2D2
 ====
+`Source Code`_
+
 Safety
 ------
 
@@ -32,3 +34,4 @@ Indices and Tables
 * :ref:`modindex`
 * :ref:`search`
 
+.. _Source Code: https://github.com/C222/C2D2
