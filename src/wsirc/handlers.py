@@ -6,12 +6,10 @@ from datetime import datetime
 import time
 import platform
 
+import config
+
 if platform.system() == "Windows":
 	requests.packages.urllib3.disable_warnings()
-
-PROMPT = "~"
-BOTS = ["nightbot", "iwinzbot"]
-COOLDOWN_WAIT = 60
 
 """
 Utility
@@ -53,11 +51,11 @@ COMMANDS
 
 @permissions(mod=True, sub=True)
 def cmd_ban(wsirc, msg, hooks):
-	args = msg.chat.lstrip(PROMPT).split(" ")[1:]
+	args = msg.chat.lstrip(config.PROMPT).split(" ")[1:]
 	wsirc.chat("{} has been banned from {}. Kappa".format("".join(args), wsirc.channel))
 
 def cmd_imgur(wsirc, msg, hooks):
-	args = msg.chat.lstrip(PROMPT).split(" ")[1:]
+	args = msg.chat.lstrip(config.PROMPT).split(" ")[1:]
 
 	try:
 		r = requests.get("https://api.imgur.com/2/image/{}".format(args[0]))
@@ -68,7 +66,7 @@ def cmd_imgur(wsirc, msg, hooks):
 
 @permissions(mod=True, sub=True)
 def cmd_streamer(wsirc, msg, hooks):
-	args = msg.chat.lstrip(PROMPT).split(" ")[1:]
+	args = msg.chat.lstrip(config.PROMPT).split(" ")[1:]
 
 	try:
 		users = requests.get("https://api.twitch.tv/kraken/users/{}".format(args[0]))
@@ -89,7 +87,7 @@ def cmd_streamer(wsirc, msg, hooks):
 
 @permissions(mod=True, sub=True)
 def cmd_status(wsirc, msg, hooks):
-	args = msg.chat.lstrip(PROMPT).split(" ")[1:]
+	args = msg.chat.lstrip(config.PROMPT).split(" ")[1:]
 
 	try:
 		streams = requests.get("https://api.twitch.tv/kraken/streams/{}".format(args[0]))
@@ -122,9 +120,6 @@ def cmd_part(wsirc, msg, hooks):
 	wsirc.run = False
 	exit()
 
-"""
-EVENTS
-"""
 COMMANDS = {
 	"ban": cmd_ban,
 	"imgur": cmd_imgur,
@@ -134,24 +129,29 @@ COMMANDS = {
 	"about": cmd_about,
 	"part": cmd_part
 }
+
+"""
+EVENTS
+"""
+
 def on_chat(wsirc, msg, hooks):
-	if msg.name.lower() in BOTS:
+	if msg.name.lower() in config.BOTS:
 		return
 	logging.info("%s: %s: %s", wsirc.channel, msg.name, msg.chat)
 	if msg.check_for_link():
 		hooks.run_hooks("link", msg)
-	if msg.chat.startswith(PROMPT):
+	if msg.chat.startswith(config.PROMPT):
 		hooks.run_hooks("command", msg)
 
 COOLDOWNS = {}
 
 def on_command(wsirc, msg, hooks):
-	command = msg.chat.lstrip(PROMPT).split(" ")[0]
+	command = msg.chat.lstrip(config.PROMPT).split(" ")[0]
 
 	lasttime = COOLDOWNS.get(command, 0)
 	sincelast = time.time() - lasttime
 
-	if command in COMMANDS and sincelast > COOLDOWN_WAIT:
+	if command in COMMANDS and sincelast > config.COOLDOWN_WAIT:
 		COOLDOWNS[command] = time.time()
 		COMMANDS[command](wsirc, msg, hooks)
 

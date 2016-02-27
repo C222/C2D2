@@ -1,3 +1,4 @@
 *.pyc
 src/credentials.py
 docs/build/*
+src/config.py

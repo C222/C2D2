@@ -5,6 +5,7 @@ import platform
 import signal
 
 from wsirc.wsirc import WS_IRC
+import config
 
 logging.getLogger().setLevel(logging.INFO)
 
@@ -20,8 +21,7 @@ if __name__ == "__main__":
 	if platform.system() == "Windows":
 		multiprocessing.freeze_support()
 
-	limit = multiprocessing.Semaphore(30)
-	channels = ["c222_", "oshi7"]
+	limit = multiprocessing.Semaphore(config.BURST_RATE_30)
 	processes = []
 
 	def end_clean(num, frame):
@@ -33,7 +33,7 @@ if __name__ == "__main__":
 
 	signal.signal(signal.SIGINT, end_clean)
 
-	for c in channels:
+	for c in config.CHANNELS:
 		p = multiprocessing.Process(target=spawn_bot, args=(c, limit))
 		processes.append(p)
 
@@ -43,5 +43,5 @@ if __name__ == "__main__":
 	while True:
 		time.sleep(30)
 		logging.debug(sem_val(limit))
-		while sem_val(limit) < 30:
+		while sem_val(limit) < config.BURST_RATE_30:
 			limit.release()

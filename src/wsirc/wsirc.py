@@ -13,20 +13,7 @@ import time
 from message import Message
 from credentials import *
 import handlers
-
-TWITCH_SERVERS = ["ws://192.16.64.174/",
-				  "ws://192.16.64.175/",
-				  "ws://192.16.64.176/",
-				  "ws://192.16.64.177/",
-				  "ws://192.16.64.178/",
-				  "ws://192.16.64.179/",
-				  "ws://192.16.64.205/",
-				  "ws://192.16.64.206/",
-				  "ws://192.16.64.207/",
-				  "ws://192.16.64.208/",
-				  "ws://192.16.64.209/",
-				  "ws://192.16.64.210/",
-				  "ws://192.16.64.211/"]
+import config
 
 class WS_IRC(object):
 	'''
@@ -47,7 +34,7 @@ class WS_IRC(object):
 				from a single connection
 		'''
 		self.channel = channel
-		self.URL = random.choice(TWITCH_SERVERS)
+		self.URL = random.choice(config.TWITCH_SERVERS)
 		self.run = False
 		self.limit = limit
 		self.hooks = hooks.Hooks(self)
