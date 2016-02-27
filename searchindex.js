@@ -1,0 +1,1 @@
+Search.setIndex({envversion:46,filenames:["index","wsirc"],objects:{},objnames:{},objtypes:{},terms:{content:0,index:0,irc:0,modul:0,page:0,search:0,websocket:0},titles:["Welcome to C2D2&#8217;s documentation!","WebSocket IRC Module"],titleterms:{c2d2:0,document:0,indic:0,irc:1,modul:1,tabl:0,websocket:1,welcom:0}})
