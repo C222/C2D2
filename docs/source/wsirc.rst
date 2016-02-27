@@ -1,8 +1,5 @@
 WebSocket IRC Module
 **********************
 
-.. automodule:: wsirc.wsirc
-   :members:
-
-.. automodule:: wsirc.message
+.. autoclass:: wsirc.wsirc.WS_IRC
    :members:
