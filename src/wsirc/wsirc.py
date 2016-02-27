@@ -1,3 +1,8 @@
+'''
+    Created February 25, 2016
+    Author: C222
+'''
+
 import random
 import hooks
 import logging
@@ -24,6 +29,11 @@ TWITCH_SERVERS = ["ws://192.16.64.174/",
 				  "ws://192.16.64.211/"]
 
 class WS_IRC(object):
+	'''
+	Attributes:
+		channel: The IRC channel joined.
+		URL: The ws_irc server connected to.
+	'''
 	def __init__(self, channel, limit):
 		'''A connection to a Twitch WebSocket IRC server
 
@@ -89,6 +99,7 @@ class WS_IRC(object):
 
 		Args:
 			ws: the WebSocketApp object
+			error: the error thrown.
 		'''
 		logging.error("%s", error)
 
@@ -146,7 +157,7 @@ class WS_IRC(object):
 	def run_loop(self):
 		'''The function that runs inside the thread after open
 
-		Will run until
+		Will run until self.run is False and the WebSocket closes.
 
 		'''
 		while self.run:
