@@ -3,18 +3,29 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to C2D2's documentation!
-================================
+C2D2
+====
+Safety
+------
 
-Contents:
+Versitiliy
+----------
+
+Scalable
+--------
+
+
+API
+===
 
 .. toctree::
    :maxdepth: 2
 
    wsirc
+   message
 
 
-Indices and tables
+Indices and Tables
 ==================
 
 * :ref:`genindex`

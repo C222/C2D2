@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Message &mdash; C2D2 2.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="C2D2 2.0 documentation" href="index.html" />
+    <link rel="prev" title="WebSocket IRC" href="wsirc.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="message">
+<h1>Message<a class="headerlink" href="#message" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="wsirc.message.Message">
+<em class="property">class </em><code class="descclassname">wsirc.message.</code><code class="descname">Message</code><span class="sig-paren">(</span><em>msg</em><span class="sig-paren">)</span><a class="headerlink" href="#wsirc.message.Message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Representation for a single IRC message.</p>
+<dl class="attribute">
+<dt id="Message.msg">
+<code class="descname">msg</code><a class="headerlink" href="#Message.msg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parsed dictionary if IRC message elements. Includes: nick, user, host, command, params</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Message.link">
+<code class="descname">link</code><a class="headerlink" href="#Message.link" title="Permalink to this definition">¶</a></dt>
+<dd><p>A potential link detected in the message, otherwise None.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Message.link_re">
+<code class="descname">link_re</code><a class="headerlink" href="#Message.link_re" title="Permalink to this definition">¶</a></dt>
+<dd><p>Local reference to the copiled link regex used.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Message.tags">
+<code class="descname">tags</code><a class="headerlink" href="#Message.tags" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dictionary representing the IRCv3 tags.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Message.chat">
+<code class="descname">chat</code><a class="headerlink" href="#Message.chat" title="Permalink to this definition">¶</a></dt>
+<dd><p>The chat message sent to the channel.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Message.name">
+<code class="descname">name</code><a class="headerlink" href="#Message.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>the name of the sender of the message to the channel.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsirc.message.Message.check_for_link">
+<code class="descname">check_for_link</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsirc.message.Message.check_for_link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Triggers the regex detection of any links in the chat message.</p>
+<p>This usually takes place if there is a chat message.</p>
+<p>Returns: True if there is a link detected.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsirc.message.Message.parse">
+<code class="descname">parse</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsirc.message.Message.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Triggers the parsing of the message string.</p>
+<p>This usually takes place during construction.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="wsirc.html" title="previous chapter">WebSocket IRC</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/message.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, C222.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4a1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/message.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
