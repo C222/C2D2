@@ -11,7 +11,7 @@ def list_get_default(s, index, default=None):
 class Message(object):
 	'''Representation for a single IRC message.
 	
-	Params:
+	Attributes:
 		msg: Parsed dictionary if IRC message elements. Includes: nick, user, host, command, params
 		link: A potential link detected in the message, otherwise None.
 		link_re: Local reference to the copiled link regex used.
