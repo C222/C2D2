@@ -24,6 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="C2D2 2.0 documentation" href="index.html" />
+    <link rel="next" title="Message" href="message.html" />
     <link rel="prev" title="C2D2" href="index.html" />
    
   
@@ -74,16 +75,18 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>msg</strong> &#8211; string to chat to the channel</li>
 <li><strong>blocking</strong> &#8211; whether or not to wait on the limiting semaphore or fail
 upon not acquiring it</li>
 </ul>
 </td>
 </tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if the chat succeeded</p>
+</td>
+</tr>
 </tbody>
 </table>
-<p>Returns: True if the chat succeeded</p>
 </dd></dl>
 
 <dl class="staticmethod">
@@ -96,9 +99,10 @@ upon not acquiring it</li>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>c</strong> &#8211; a character</td>
 </tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if the character is a non-alphanum.</td>
+</tr>
 </tbody>
 </table>
-<p>Returns: True if the character is a non-alphanum.</p>
 </dd></dl>
 
 <dl class="method">
@@ -180,7 +184,7 @@ upon not acquiring it</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>msg</strong> &#8211; string to send to the server</li>
 <li><strong>blocking</strong> &#8211; whether or not to wait on the limiting semaphore or fail
 upon not acquiring it</li>
@@ -189,9 +193,11 @@ This is useful for things like not logging the OAuth password.</li>
 </ul>
 </td>
 </tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if the send succeeded</p>
+</td>
+</tr>
 </tbody>
 </table>
-<p>Returns: True if the send succeeded</p>
 </dd></dl>
 
 <dl class="method">
@@ -215,6 +221,7 @@ This is useful for things like not logging the OAuth password.</li>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="index.html" title="previous chapter">C2D2</a></li>
+      <li>Next: <a href="message.html" title="next chapter">Message</a></li>
   </ul></li>
 </ul>
 </div>

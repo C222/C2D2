@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Hooks &mdash; C2D2 2.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="C2D2 2.0 documentation" href="index.html" />
+    <link rel="prev" title="Handlers" href="handlers.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="hooks">
+<h1>Hooks<a class="headerlink" href="#hooks" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="wsirc.hooks.Hooks">
+<em class="property">class </em><code class="descclassname">wsirc.hooks.</code><code class="descname">Hooks</code><span class="sig-paren">(</span><em>wsirc</em><span class="sig-paren">)</span><a class="headerlink" href="#wsirc.hooks.Hooks" title="Permalink to this definition">¶</a></dt>
+<dd><p>A system to register callback functions into channels</p>
+<p>All callbacks are synchronous in the run_hooks call.</p>
+<dl class="attribute">
+<dt id="Hooks.wsirc">
+<code class="descname">wsirc</code><a class="headerlink" href="#Hooks.wsirc" title="Permalink to this definition">¶</a></dt>
+<dd><p>The WS_IRC object to pass to the callbacks.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="Hooks.registered_hooks">
+<code class="descname">registered_hooks</code><a class="headerlink" href="#Hooks.registered_hooks" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dictionary of channel name and list of function pairs.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsirc.hooks.Hooks.create_hook_channel">
+<code class="descname">create_hook_channel</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#wsirc.hooks.Hooks.create_hook_channel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a hook channel with a new name, or clears an existing one.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; The name to use.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsirc.hooks.Hooks.make_hook_cb">
+<code class="descname">make_hook_cb</code><span class="sig-paren">(</span><em>channel</em><span class="sig-paren">)</span><a class="headerlink" href="#wsirc.hooks.Hooks.make_hook_cb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a single function to run a specific channel.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>channel</strong> &#8211; The name of the channel to run.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A function that runs a specific channel&#8217;s hooks and
+accepts a Message object as an argument.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsirc.hooks.Hooks.register_hook">
+<code class="descname">register_hook</code><span class="sig-paren">(</span><em>fn</em>, <em>channel</em><span class="sig-paren">)</span><a class="headerlink" href="#wsirc.hooks.Hooks.register_hook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert a function into the specified channel.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fn</strong> &#8211; The function to insert into the channel. It must
+accept three arguments: a WS_IRC object, a Message
+object, and a Hooks object.</li>
+<li><strong>channel</strong> &#8211; The channel to insert the function into. The
+channel must have been created first using
+create_hook_channel.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if the function was sucessfully inserted into the channel.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsirc.hooks.Hooks.run_hooks">
+<code class="descname">run_hooks</code><span class="sig-paren">(</span><em>channel</em>, <em>msg</em><span class="sig-paren">)</span><a class="headerlink" href="#wsirc.hooks.Hooks.run_hooks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run all functions in the specified channel.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>channel</strong> &#8211; The name of the channel to run.</li>
+<li><strong>msg</strong> &#8211; The Message object to pass to the callbacks.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="handlers.html" title="previous chapter">Handlers</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/hooks.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, C222.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4a1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/hooks.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

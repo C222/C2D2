@@ -5,6 +5,8 @@
 
 C2D2
 ====
+`Source Code`_
+
 Safety
 ------
 
@@ -23,6 +25,10 @@ API
 
    wsirc
    message
+   config
+   credentials
+   handlers
+   hooks
 
 
 Indices and Tables
@@ -32,3 +38,4 @@ Indices and Tables
 * :ref:`modindex`
 * :ref:`search`
 
+.. _Source Code: https://github.com/C222/C2D2

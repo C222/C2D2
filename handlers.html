@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Handlers &mdash; C2D2 2.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="C2D2 2.0 documentation" href="index.html" />
+    <link rel="next" title="Hooks" href="hooks.html" />
+    <link rel="prev" title="Credentials" href="credentials.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-wsirc.handlers">
+<span id="handlers"></span><h1>Handlers<a class="headerlink" href="#module-wsirc.handlers" title="Permalink to this headline">¶</a></h1>
+<p>Functions to handle specific events and commands</p>
+<dl class="attribute">
+<dt id="wsirc.handlers.COMMANDS">
+<code class="descclassname">wsirc.handlers.</code><code class="descname">COMMANDS</code><a class="headerlink" href="#wsirc.handlers.COMMANDS" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dictionary of command-word and function pairs</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="wsirc.handlers.check_owner">
+<code class="descclassname">wsirc.handlers.</code><code class="descname">check_owner</code><span class="sig-paren">(</span><em>wsirc</em>, <em>msg</em><span class="sig-paren">)</span><a class="headerlink" href="#wsirc.handlers.check_owner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the message sender is the owner of the current channel.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>wsirc</strong> &#8211; The WS_IRC object connected to a channel.</li>
+<li><strong>msg</strong> &#8211; The message to check the owner of.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if the sender of the message is the owner of the channel.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="wsirc.handlers.compare_url">
+<code class="descclassname">wsirc.handlers.</code><code class="descname">compare_url</code><span class="sig-paren">(</span><em>a</em>, <em>b</em><span class="sig-paren">)</span><a class="headerlink" href="#wsirc.handlers.compare_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare two urls to see if they&#8217;re from the same domain(ish).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>a</strong> &#8211; A string containing a URL.</li>
+<li><strong>b</strong> &#8211; A string containing a URL.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if the URL domains are similar enough.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="wsirc.handlers.compose_url">
+<code class="descclassname">wsirc.handlers.</code><code class="descname">compose_url</code><span class="sig-paren">(</span><em>groups</em><span class="sig-paren">)</span><a class="headerlink" href="#wsirc.handlers.compose_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a tuple of groups from a Message.link object into a possibly valid URL.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>groups</strong> &#8211; The tuple from the links member in a Message object.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A string that is possibly a valid URL.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="wsirc.handlers.permissions">
+<code class="descclassname">wsirc.handlers.</code><code class="descname">permissions</code><span class="sig-paren">(</span><em>mod=False</em>, <em>sub=False</em><span class="sig-paren">)</span><a class="headerlink" href="#wsirc.handlers.permissions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator to restrict the use of a command.</p>
+<p>Channel owners are always allowed to use a command.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>mod</strong> &#8211; Whether or not to allow mods to use the command</li>
+<li><strong>sub</strong> &#8211; Whether or not to allow subscribers to use the command</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A function that only runs only if the message sender meets specific requirements.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="credentials.html" title="previous chapter">Credentials</a></li>
+      <li>Next: <a href="hooks.html" title="next chapter">Hooks</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/handlers.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, C222.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4a1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/handlers.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
