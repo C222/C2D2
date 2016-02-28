@@ -1,3 +1,9 @@
+'''Functions to handle specific events and commands
+
+Attributes:
+	COMMANDS: A dictionary of command-word and function pairs
+'''
+
 import logging
 import requests
 import httplib
@@ -11,11 +17,22 @@ import config
 if platform.system() == "Windows":
 	requests.packages.urllib3.disable_warnings()
 
-"""
-Utility
-"""
+###########
+# Utility #
+###########
 
 def permissions(mod=False, sub=False):
+	'''Decorator to restrict the use of a command.
+	
+	Channel owners are always allowed to use a command.
+	
+	Args:
+		mod: Whether or not to allow mods to use the command
+		sub: Whether or not to allow subscribers to use the command
+	
+	Returns:
+		A function that only runs only if the message sender meets specific requirements.
+	'''
 	def fun_check(function):
 		def perm_function(wsirc, msg, hooks):
 			if mod and msg.tags['mod'] == '1':
@@ -29,6 +46,14 @@ def permissions(mod=False, sub=False):
 	return fun_check
 
 def compose_url(groups):
+	'''Converts a tuple of groups from a Message.link object into a possibly valid URL.
+	
+	Args:
+		groups: The tuple from the links member in a Message object.
+	
+	Returns:
+		A string that is possibly a valid URL.
+	'''
 	url = groups[1]
 	if groups[0] is not None:
 		url = groups[0] + url
@@ -37,17 +62,35 @@ def compose_url(groups):
 	return url
 
 def check_owner(wsirc, msg):
+	'''Check if the message sender is the owner of the current channel.
+	
+	Args:
+		wsirc: The WS_IRC object connected to a channel.
+		msg: The message to check the owner of.
+	
+	Returns:
+		True if the sender of the message is the owner of the channel.
+	'''
 	return wsirc.channel == msg.name.lower()
 
 def compare_url(a, b):
+	'''Compare two urls to see if they're from the same domain(ish).
+	
+	Args:
+		a: A string containing a URL.
+		b: A string containing a URL.
+	
+	Returns:
+		True if the URL domains are similar enough.
+	'''
 	a = a.split("/")[2].replace(".", "")
 	b = b.split("/")[2].replace(".", "")
 
 	return (a in b) or (b in a)
 
-"""
-COMMANDS
-"""
+############
+# COMMANDS #
+############
 
 @permissions(mod=True, sub=True)
 def cmd_ban(wsirc, msg, hooks):
@@ -130,9 +173,9 @@ COMMANDS = {
 	"part": cmd_part
 }
 
-"""
-EVENTS
-"""
+##########
+# EVENTS #
+##########
 
 def on_chat(wsirc, msg, hooks):
 	if msg.name.lower() in config.BOTS:

@@ -27,6 +27,8 @@ API
    message
    config
    credentials
+   handlers
+   hooks
 
 
 Indices and Tables

@@ -49,7 +49,8 @@ class WS_IRC(object):
 		Args:
 			c: a character
 
-		Returns: True if the character is a non-alphanum.
+		Returns:
+			True if the character is a non-alphanum.
 		'''
 		return c not in (string.ascii_letters + string.digits)
 
@@ -115,7 +116,8 @@ class WS_IRC(object):
 			debug: whether or not to log the outgoing string at debug level.
 				This is useful for things like not logging the OAuth password.
 
-		Returns: True if the send succeeded
+		Returns:
+			True if the send succeeded
 		'''
 		if debug:
 			logging.debug("Sending %s", msg)
@@ -138,7 +140,8 @@ class WS_IRC(object):
 			blocking: whether or not to wait on the limiting semaphore or fail
 				upon not acquiring it
 
-		Returns: True if the chat succeeded
+		Returns:
+			True if the chat succeeded
 		'''
 		structure = "@sent-ts={} PRIVMSG #{} :{}\n"
 		return self.send(structure.format(str(int(time.time())), self.channel, msg), blocking)
