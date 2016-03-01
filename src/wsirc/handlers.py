@@ -154,6 +154,9 @@ def cmd_status(wsirc, msg, hooks):
 def cmd_potatoes(wsirc, msg, hooks):
 	wsirc.chat("Potatoes Potatoes Potatoes <3")
 
+def cmd_botlove(wsirc, msg, hooks):
+	wsirc.chat("!hug Nightbot")
+
 def cmd_about(wsirc, msg, hooks):
 	wsirc.chat("I am C2D2, an experimental bot. I have a select few commands available and I expand shortened links. My source code is at https://github.com/C222/C2D2 . If I break, complain to C222_. Channel owners can make me leave with '~part'")
 
@@ -170,7 +173,8 @@ COMMANDS = {
 	"streamer": cmd_streamer,
 	"potatoes": cmd_potatoes,
 	"about": cmd_about,
-	"part": cmd_part
+	"part": cmd_part,
+	"botlove": cmd_botlove
 }
 
 ##########
