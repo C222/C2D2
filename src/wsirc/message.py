@@ -27,10 +27,10 @@ class Message(object):
 		self.msg = msg
 		self.link = None
 		self.link_re = LINK_RE
-		self.parse()
 		self.tags = {}
 		self.chat = None
 		self.name = None
+		self.parse()
 
 	def parse(self):
 		'''Triggers the parsing of the message string.
@@ -62,3 +62,6 @@ class Message(object):
 			return True
 		else:
 			return False
+			
+	def calc_stats(self):
+		return
