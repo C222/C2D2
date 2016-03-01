@@ -28,6 +28,9 @@ class Message(object):
 		self.link = None
 		self.link_re = LINK_RE
 		self.parse()
+		self.tags = {}
+		self.chat = None
+		self.name = None
 
 	def parse(self):
 		'''Triggers the parsing of the message string.
@@ -39,8 +42,6 @@ class Message(object):
 			self.tags = self.msg[1:split].split(";")
 			self.tags = {x.split("=")[0]: x.split("=")[1] for x in self.tags}
 			self.msg = self.msg[split:].lstrip()
-		else:
-			self.tags = {}
 		self.msg = muirc.translate(self.msg)
 		self.name = self.tags.get("display-name", False)
 		if not self.name:
