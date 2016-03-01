@@ -2,8 +2,6 @@
 
 echo "Making sure PIP exists"
 wget -qO - https://bootstrap.pypa.io/get-pip.py | python -
-python get-pip.py
-rm ./get-pip.py
 pip install -U pip
 
 echo "Installing Python dependancies"
