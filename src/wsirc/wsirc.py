@@ -1,6 +1,6 @@
 '''
-    Created February 25, 2016
-    Author: C222
+	Created February 25, 2016
+	Author: C222
 '''
 
 import random
@@ -12,6 +12,7 @@ import time
 
 from message import Message
 from credentials import *
+from cassandra_connection import CassandraConnection
 import handlers
 import config
 
@@ -41,6 +42,8 @@ class WS_IRC(object):
 		self.hooks.create_hook_channel("chat")
 		self.hooks.create_hook_channel("link")
 		self.hooks.create_hook_channel("command")
+		self._registered = False
+		self.cass_connect = None
 
 	@staticmethod
 	def is_symbol(c):
@@ -146,6 +149,16 @@ class WS_IRC(object):
 		structure = "@sent-ts={} PRIVMSG #{} :{}\n"
 		return self.send(structure.format(str(int(time.time())), self.channel, msg), blocking)
 
+	def register_hooks(self):
+		if not self._registered:
+			self.hooks.register_hook(handlers.on_chat, "chat")
+			self.hooks.register_hook(handlers.on_link, "link")
+			self.hooks.register_hook(handlers.on_command, "command")
+			if config.CASSANDRA_LOGGING_ENABLE:
+				self.cass_connect = CassandraConnection()
+				self.hooks.register_hook(self.cass_connect.on_chat, "chat")
+			self._registered = True
+
 	def run_loop(self):
 		'''The function that runs inside the thread after open
 
@@ -159,9 +172,7 @@ class WS_IRC(object):
 			time.sleep(1)
 			logging.info("Joining %s", self.channel)
 			self.send("JOIN #{}\n".format(self.channel), True)
-			self.hooks.register_hook(handlers.on_chat, "chat")
-			self.hooks.register_hook(handlers.on_link, "link")
-			self.hooks.register_hook(handlers.on_command, "command")
+			self.register_hooks()
 			while True:
 				time.sleep(.1)
 			ws.close()

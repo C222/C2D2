@@ -9,6 +9,11 @@ Attributes:
 	PROMPT: The character all commands start with.
 	BOTS: Nicknames to completely ignore.
 	COOLDOWN_WAIT: Number of seconds before a command can be repeated.
+
+	CASSANDRA_LOGGING_ENABLE: Whether or not to log to Cassandra
+	CASSANDRA_IPS: IP addresses of Cassandra Servers
+	CASSANDRA_USER: Cassandra Username
+	CASSANDRA_PASSWORD: Cassandra Password
 '''
 
 CHANNELS = []
@@ -31,3 +36,8 @@ TWITCH_SERVERS = ["ws://192.16.64.174/",
 PROMPT = "~"
 BOTS = ["nightbot", "twitchnotify"]
 COOLDOWN_WAIT = 60
+
+CASSANDRA_LOGGING_ENABLE = False
+CASSANDRA_IPS = [("", 9042)]
+CASSANDRA_USER = ""
+CASSANDRA_PASSWORD = ""
