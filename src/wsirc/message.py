@@ -1,5 +1,6 @@
 import re
 import logging
+import time
 
 from libs import muirc
 
@@ -10,7 +11,7 @@ def list_get_default(s, index, default=None):
 
 class Message(object):
 	'''Representation for a single IRC message.
-	
+
 	Attributes:
 		msg: Parsed dictionary if IRC message elements. Includes: nick, user, host, command, params
 		link: A potential link detected in the message, otherwise None.
@@ -30,11 +31,12 @@ class Message(object):
 		self.tags = {}
 		self.chat = None
 		self.name = None
+		self.time = int(time.time())
 		self.parse()
 
 	def parse(self):
 		'''Triggers the parsing of the message string.
-		
+
 		This usually takes place during construction.
 		'''
 		if self.msg.startswith("@"):
@@ -51,9 +53,9 @@ class Message(object):
 
 	def check_for_link(self):
 		'''Triggers the regex detection of any links in the chat message.
-		
+
 		This usually takes place if there is a chat message.
-		
+
 		Returns: True if there is a link detected.
 		'''
 		m = self.link_re.search(self.chat)
@@ -62,6 +64,6 @@ class Message(object):
 			return True
 		else:
 			return False
-			
+
 	def calc_stats(self):
 		return

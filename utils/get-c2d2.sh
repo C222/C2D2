@@ -5,7 +5,7 @@ wget -qO - https://bootstrap.pypa.io/get-pip.py | python -
 pip install -U pip
 
 echo "Installing Python dependancies"
-pip install Flask requests urllib3 websocket-client
+pip install Flask requests urllib3 websocket-client cassandra-driver
 
 exho "Installing C2D2"
 wget https://github.com/C222/C2D2/archive/master.zip -O .temp.zip
