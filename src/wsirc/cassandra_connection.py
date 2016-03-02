@@ -46,13 +46,18 @@ class CassandraConnection:
 
 	def on_chat(self, wsirc, msg, hooks):
 		if self._started:
+			
+			if msg.link is not None:
+				ln = [str(x) for x in msg.link if x is not None]
+			else:
+				ln = None
+			
 			i = MessageModel.create(
-			nick=msg.name,
+			nick=msg.msg['nick'],
 			channel=wsirc.channel,
 			utc=msg.time,
 			tags= msg.tags,
 			chat=msg.chat,
-			link=msg.link
+			link=ln
 			)
-			logging.info(i.tags)
 			logging.debug(i)

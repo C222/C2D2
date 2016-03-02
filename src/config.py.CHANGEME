@@ -12,6 +12,7 @@ Attributes:
 
 	CASSANDRA_LOGGING_ENABLE: Whether or not to log to Cassandra
 	CASSANDRA_IPS: IP addresses of Cassandra Servers
+	CASSANDRA_PORT: Port of Cassandra Servers
 	CASSANDRA_USER: Cassandra Username
 	CASSANDRA_PASSWORD: Cassandra Password
 '''
@@ -38,6 +39,7 @@ BOTS = ["nightbot", "twitchnotify"]
 COOLDOWN_WAIT = 60
 
 CASSANDRA_LOGGING_ENABLE = False
-CASSANDRA_IPS = [("", 9042)]
+CASSANDRA_IPS = [""]
+CASSANDRA_PORT = 9042
 CASSANDRA_USER = ""
 CASSANDRA_PASSWORD = ""

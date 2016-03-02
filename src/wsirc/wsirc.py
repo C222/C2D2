@@ -12,9 +12,10 @@ import time
 
 from message import Message
 from credentials import *
-from cassandra_connection import CassandraConnection
 import handlers
 import config
+if config.CASSANDRA_LOGGING_ENABLE:
+	from cassandra_connection import CassandraConnection
 
 class WS_IRC(object):
 	'''
