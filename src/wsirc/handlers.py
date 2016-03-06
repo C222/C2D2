@@ -57,7 +57,7 @@ def compose_url(groups):
 	url = groups[1]
 	if groups[0] is not None:
 		url = groups[0] + url
-	if not url.lower().startswith("http://"):
+	if not (url.lower().startswith("http://") or url.lower().startswith("https://")):
 		url = "http://" + url
 	return url
 
@@ -87,6 +87,12 @@ def compare_url(a, b):
 	b = b.split("/")[2].replace(".", "")
 
 	return (a in b) or (b in a)
+
+def humanize(ln):
+	ret = ln.split("/")[2]
+	ret = ret.replace(".", "(.)")
+	ret = "[Shortened link to {} detected MrDestructoid ]".format(ret)
+	return ret
 
 ############
 # COMMANDS #
@@ -203,15 +209,15 @@ def on_command(wsirc, msg, hooks):
 		COMMANDS[command](wsirc, msg, hooks)
 
 def on_link(wsirc, msg, hooks):
+	if msg.tags['mod'] == '1':
+		return
 	url = compose_url(msg.link)
-	logging.warn(url)
+	logging.warn("%s detected from %s", url, msg.name)
 	try:
-		r = requests.get(url, timeout=5)
-	except httplib.InvalidURL as e:
-		pass
-	except requests.exceptions.ConnectTimeout as e:
-		pass
+		r = requests.get(url, timeout=10)
+	except Exception as e:
+		logging.error("%s on %s", e, url)
 	else:
 		if not compare_url(url, r.url):
-			wsirc.chat("{} linked to {} DansGame".format(msg.name, r.url.replace(".", "(dot)")))
+			wsirc.chat(humanize(r.url))
 			logging.info("%s returned %s from %s", url, r.status_code, r.url)
