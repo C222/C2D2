@@ -61,3 +61,18 @@ class CassandraConnection:
 			link=ln
 			)
 			logging.debug(i)
+
+	def distinct(self):
+		rows = self.session.execute("SELECT DISTINCT channel, nick FROM chat;")
+		return rows
+		
+	def get_log(self, channel, user, limit=100):
+		limit = min(limit, 1000)
+		rows = MessageModel.filter(channel=channel, nick=user).order_by("-utc").limit(limit)
+		
+		result = []
+		
+		for r in rows:
+			result.append(dict(r))
+			
+		return result
