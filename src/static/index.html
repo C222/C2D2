@@ -1,0 +1,32 @@
+<html>
+	<head>
+		<title>Log Viewer</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="/static/script.js"></script>
+		<link rel="stylesheet" type="text/css" href="/static/style.css" />
+	</head>
+	<body onload="pageLoad();">
+	<div id="filter">
+		Channel:
+		<select id="channel" onchange="channelChange();">
+			<option value=""></option>
+		</select>
+		User:
+		<select id="user" onchange="userChange();">
+			<option value=""></option>
+		</select>
+		Limit:
+		<select id="limit" onchange="userChange();">
+			<option value="10">10</option>
+			<option value="25">25</option>
+			<option value="50">50</option>
+			<option value="100">100</option>
+			<option value="250">250</option>
+			<option value="500">500</option>
+			<option value="1000">1000</option>
+		</select>
+	</div>
+	<div id="result">
+	</div>
+	</body>
+</html>
