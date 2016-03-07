@@ -1,3 +1,5 @@
+#!/usr/bin/python2
+
 from flask import Flask, send_from_directory, request, Response
 import logging
 import json
@@ -66,4 +68,4 @@ def send_static(path):
 if __name__ == '__main__':
 	cass = cassandra_connection.CassandraConnection()
 	cass.start()
-	app.run(debug=True)
+	app.run(debug=False, host='0.0.0.0')
