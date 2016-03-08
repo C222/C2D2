@@ -85,6 +85,11 @@ given stream.</p>
 <p>As of now it writes the following in chat:</p>
 <p><code class="docutils literal"><span class="pre">[Shortened</span> <span class="pre">link</span> <span class="pre">to</span> <span class="pre">www(.)example(.)com</span> <span class="pre">detected</span> <span class="pre">MrDestructoid</span> <span class="pre">]</span></code></p>
 </div>
+<div class="section" id="logging">
+<h2>Logging<a class="headerlink" href="#logging" title="Permalink to this headline">¶</a></h2>
+<p>When enabled, all chat from all joined channels is logged into an Apache
+Cassandra database. A <a class="reference external" href="https://github.com/C222/C2D2/blob/master/utils/cassandra-schema.sql">schema</a> and a <a class="reference external" href="https://github.com/C222/C2D2/blob/master/src/logviewer.py">log viewer</a> Flask applet is provided.</p>
+</div>
 <div class="section" id="versitiliy">
 <h2>Versitiliy<a class="headerlink" href="#versitiliy" title="Permalink to this headline">¶</a></h2>
 <p>It&#8217;s easy to add new commands to the command list. <a class="footnote-reference" href="#id2" id="id1">[1]</a></p>
@@ -134,6 +139,7 @@ given stream.</p>
 <li><a class="reference internal" href="#">C2D2</a><ul>
 <li><a class="reference internal" href="#builtin-commands">Builtin Commands</a></li>
 <li><a class="reference internal" href="#safety">Safety</a></li>
+<li><a class="reference internal" href="#logging">Logging</a></li>
 <li><a class="reference internal" href="#versitiliy">Versitiliy</a></li>
 <li><a class="reference internal" href="#scalable">Scalable</a></li>
 </ul>
