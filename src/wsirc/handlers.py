@@ -125,7 +125,7 @@ def cmd_streamer(wsirc, msg, hooks):
 	else:
 		users = users.json()
 		channels = channels.json()
-		if users.get("status", "200") == 404 or channels.get("status", "200") == 404:
+		if users.get("status", "200") != "200" and channels.get("status", "200") != "200":
 			return
 		else:
 			joined = datetime.strptime(users["created_at"],"%Y-%m-%dT%H:%M:%SZ")
@@ -144,7 +144,7 @@ def cmd_status(wsirc, msg, hooks):
 		logging.exception(e)
 	else:
 		streams = streams.json()
-		if streams.get("status", "200") == 404:
+		if streams.get("status", "200") != "200":
 			return
 		else:
 			if streams["stream"] is None:
