@@ -46,6 +46,12 @@ As of now it writes the following in chat:
 
 ``[Shortened link to www(.)example(.)com detected MrDestructoid ]``
 
+Logging
+-------
+
+When enabled, all chat from all joined channels is logged into an Apache
+Cassandra database. A `schema`_ and a `log viewer`_ Flask applet is provided.
+
 Versitiliy
 ----------
 
@@ -80,5 +86,7 @@ Indices and Tables
 
 .. _Source Code: https://github.com/C222/C2D2
 .. _installation script: https://github.com/C222/C2D2/blob/master/utils/get-c2d2.sh
+.. _schema: https://github.com/C222/C2D2/blob/master/utils/cassandra-schema.sql
+.. _log viewer: https://github.com/C222/C2D2/blob/master/src/logviewer.py
 
 .. [1] If you know Python or are willing to learn.
