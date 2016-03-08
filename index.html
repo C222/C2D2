@@ -40,14 +40,58 @@
   <div class="section" id="c2d2">
 <h1>C2D2<a class="headerlink" href="#c2d2" title="Permalink to this headline">¶</a></h1>
 <p><a class="reference external" href="https://github.com/C222/C2D2">Source Code</a></p>
+<div class="section" id="builtin-commands">
+<h2>Builtin Commands<a class="headerlink" href="#builtin-commands" title="Permalink to this headline">¶</a></h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">ban:</th><td class="field-body"><p class="first">A cheeky fake ban command.</p>
+<p>Usable by owners, mods, and subs.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">streamer:</th><td class="field-body"><p class="first">Fetch the bio, channel age, previously streamed game, and channel
+link of a given streamer. Results in three chat lines from the bot.</p>
+<p>Usable by owners, mods, and subs.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">status:</th><td class="field-body"><p class="first">Fetch the current game, resolution, framerate, and viewer count of a
+given stream.</p>
+<p>Usable by owners, mods, and subs.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">potatoes:</th><td class="field-body"><p class="first">Writes <code class="docutils literal"><span class="pre">Potatoes</span> <span class="pre">Potatoes</span> <span class="pre">Potatoes</span> <span class="pre">&lt;3</span></code> to chat.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">botlove:</th><td class="field-body"><p class="first">Writes <code class="docutils literal"><span class="pre">!hug</span> <span class="pre">Nightbot</span></code> to chat.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">about:</th><td class="field-body"><p class="first">Writes <code class="docutils literal"><span class="pre">I</span> <span class="pre">am</span> <span class="pre">C2D2,</span> <span class="pre">an</span> <span class="pre">experimental</span> <span class="pre">bot.</span> <span class="pre">I</span> <span class="pre">have</span> <span class="pre">a</span> <span class="pre">select</span> <span class="pre">few</span> <span class="pre">commands</span>
+<span class="pre">available</span> <span class="pre">and</span> <span class="pre">I</span> <span class="pre">expand</span> <span class="pre">shortened</span> <span class="pre">links.</span> <span class="pre">My</span> <span class="pre">source</span> <span class="pre">code</span> <span class="pre">is</span> <span class="pre">at</span>
+<span class="pre">https://github.com/C222/C2D2</span> <span class="pre">.</span> <span class="pre">If</span> <span class="pre">I</span> <span class="pre">break,</span> <span class="pre">complain</span> <span class="pre">to</span> <span class="pre">C222_.</span> <span class="pre">Channel</span> <span class="pre">owners</span>
+<span class="pre">can</span> <span class="pre">make</span> <span class="pre">me</span> <span class="pre">leave</span> <span class="pre">with</span> <span class="pre">'~part'</span></code> to chat.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">part:</th><td class="field-body"><p class="first">Forces the bot to leave a stream.</p>
+<p class="last">Usable by owners.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <div class="section" id="safety">
 <h2>Safety<a class="headerlink" href="#safety" title="Permalink to this headline">¶</a></h2>
+<p>The bot can detect shortened and redirect links and finds what the point to.</p>
+<p>As of now it writes the following in chat:</p>
+<p><code class="docutils literal"><span class="pre">[Shortened</span> <span class="pre">link</span> <span class="pre">to</span> <span class="pre">www(.)example(.)com</span> <span class="pre">detected</span> <span class="pre">MrDestructoid</span> <span class="pre">]</span></code></p>
 </div>
 <div class="section" id="versitiliy">
 <h2>Versitiliy<a class="headerlink" href="#versitiliy" title="Permalink to this headline">¶</a></h2>
+<p>It&#8217;s easy to add new commands to the command list. <a class="footnote-reference" href="#id2" id="id1">[1]</a></p>
 </div>
 <div class="section" id="scalable">
 <h2>Scalable<a class="headerlink" href="#scalable" title="Permalink to this headline">¶</a></h2>
+<p>You can easily install it and run it from multiple servers using the <a class="reference external" href="https://github.com/C222/C2D2/blob/master/utils/get-c2d2.sh">installation script</a>.</p>
 </div>
 </div>
 <div class="section" id="api">
@@ -60,6 +104,7 @@
 <li class="toctree-l1"><a class="reference internal" href="credentials.html">Credentials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="handlers.html">Handlers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hooks.html">Hooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cassandra_connection.html">CassandraConnection</a></li>
 </ul>
 </div>
 </div>
@@ -70,6 +115,12 @@
 <li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
 <li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
 </ul>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>If you know Python or are willing to learn.</td></tr>
+</tbody>
+</table>
 </div>
 
 
@@ -81,6 +132,7 @@
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">C2D2</a><ul>
+<li><a class="reference internal" href="#builtin-commands">Builtin Commands</a></li>
 <li><a class="reference internal" href="#safety">Safety</a></li>
 <li><a class="reference internal" href="#versitiliy">Versitiliy</a></li>
 <li><a class="reference internal" href="#scalable">Scalable</a></li>

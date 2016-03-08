@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>CassandraConnection &mdash; C2D2 2.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="C2D2 2.0 documentation" href="index.html" />
+    <link rel="prev" title="Hooks" href="hooks.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="cassandraconnection">
+<h1>CassandraConnection<a class="headerlink" href="#cassandraconnection" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="wsirc.cassandra_connection.CassandraConnection">
+<em class="property">class </em><code class="descclassname">wsirc.cassandra_connection.</code><code class="descname">CassandraConnection</code><a class="headerlink" href="#wsirc.cassandra_connection.CassandraConnection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Object to handdle Cassandra database insertions and queries.</p>
+<dl class="attribute">
+<dt id="CassandraConnection.conn">
+<code class="descname">conn</code><a class="headerlink" href="#CassandraConnection.conn" title="Permalink to this definition">¶</a></dt>
+<dd><p>the Cassandra cqlengine Cluster object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="CassandraConnection.session">
+<code class="descname">session</code><a class="headerlink" href="#CassandraConnection.session" title="Permalink to this definition">¶</a></dt>
+<dd><p>the Cassandra cqlengine Session object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsirc.cassandra_connection.CassandraConnection.distinct">
+<code class="descname">distinct</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsirc.cassandra_connection.CassandraConnection.distinct" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch all the distinct channel, nickname pairs stored in Cassandra.</p>
+<p>Returns: A cassandra.cluster.ResultSet.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsirc.cassandra_connection.CassandraConnection.get_log">
+<code class="descname">get_log</code><span class="sig-paren">(</span><em>channel</em>, <em>user</em>, <em>limit=100</em><span class="sig-paren">)</span><a class="headerlink" href="#wsirc.cassandra_connection.CassandraConnection.get_log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch the latest chat messages from a specific channel and user pairs stored in Cassandra.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>channel</strong> &#8211; Twitch channel to search in.</li>
+<li><strong>user</strong> &#8211; Twitch user to search for.</li>
+<li><strong>limit</strong> &#8211; Maximum chat lines to fetch. This is limited to 1000 maximum.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns: A cassandra.cluster.ResultSet.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsirc.cassandra_connection.CassandraConnection.on_chat">
+<code class="descname">on_chat</code><span class="sig-paren">(</span><em>wsirc</em>, <em>msg</em>, <em>hooks</em><span class="sig-paren">)</span><a class="headerlink" href="#wsirc.cassandra_connection.CassandraConnection.on_chat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback function to add to the hook handler.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>wsirc</strong> &#8211; The global WS_IRC object.</li>
+<li><strong>msg</strong> &#8211; The current Message object.</li>
+<li><strong>hooks</strong> &#8211; The global Hooks object.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsirc.cassandra_connection.CassandraConnection.start">
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsirc.cassandra_connection.CassandraConnection.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to start the Cassandra server connection.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="hooks.html" title="previous chapter">Hooks</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/cassandra_connection.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, C222.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4a1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/cassandra_connection.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
