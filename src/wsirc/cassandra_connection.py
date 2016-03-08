@@ -26,6 +26,12 @@ class MessageModel(Model):
 
 
 class CassandraConnection:
+	'''Object to handdle Cassandra database insertions and queries.
+	
+	Attributes:
+		conn: the Cassandra cqlengine Cluster object.
+		session: the Cassandra cqlengine Session object.
+	'''
 	def __init__(self):
 		auth_provider = PlainTextAuthProvider(
 			username=config.CASSANDRA_USER,
@@ -38,6 +44,8 @@ class CassandraConnection:
 		self.start()
 
 	def start(self):
+		'''Function to start the Cassandra server connection.
+		'''
 		self.session = self.conn.connect('c2d2')
 		self.session.row_factory = dict_factory
 		set_session(self.session)
@@ -45,6 +53,13 @@ class CassandraConnection:
 		self._started = True
 
 	def on_chat(self, wsirc, msg, hooks):
+		'''Callback function to add to the hook handler.
+		
+		Args:
+			wsirc: The global WS_IRC object.
+			msg: The current Message object.
+			hooks: The global Hooks object.
+		'''
 		if self._started:
 			
 			if msg.link is not None:
@@ -63,10 +78,23 @@ class CassandraConnection:
 			logging.debug(i)
 
 	def distinct(self):
+		'''Fetch all the distinct channel, nickname pairs stored in Cassandra.
+		
+		Returns: A cassandra.cluster.ResultSet.
+		'''
 		rows = self.session.execute("SELECT DISTINCT channel, nick FROM chat;")
 		return rows
 		
 	def get_log(self, channel, user, limit=100):
+		'''Fetch the latest chat messages from a specific channel and user pairs stored in Cassandra.
+		
+		Args:
+			channel: Twitch channel to search in.
+			user: Twitch user to search for.
+			limit: Maximum chat lines to fetch. This is limited to 1000 maximum.
+			
+		Returns: A cassandra.cluster.ResultSet.
+		'''
 		limit = min(limit, 1000)
 		rows = MessageModel.filter(channel=channel, nick=user).order_by("-utc").limit(limit)
 		

@@ -151,6 +151,10 @@ class WS_IRC(object):
 		return self.send(structure.format(str(int(time.time())), self.channel, msg), blocking)
 
 	def register_hooks(self):
+		'''Register callbacks into the hook object.
+		
+		Sets a flag to ensure it only runs once.
+		'''
 		if not self._registered:
 			self.hooks.register_hook(handlers.on_chat, "chat")
 			self.hooks.register_hook(handlers.on_link, "link")
