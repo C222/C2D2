@@ -3,18 +3,21 @@
 		<title>Log Viewer</title>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 		<script src="/static/script.js"></script>
+		<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+		<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 		<link rel="stylesheet" type="text/css" href="/static/style.css" />
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 	</head>
 	<body onload="pageLoad();">
-	<div id="filter">
+	<div id="filter" class="ui-widget">
 		Channel:
 		<select id="channel" onchange="channelChange();">
 			<option value=""></option>
 		</select>
 		User:
-		<select id="user" onchange="userChange();">
-			<option value=""></option>
-		</select>
+		<input id="user" oninput="userChange();" />
+			<!--<option value=""></option>
+		</select>-->
 		Limit:
 		<select id="limit" onchange="userChange();">
 			<option value="10">10</option>
