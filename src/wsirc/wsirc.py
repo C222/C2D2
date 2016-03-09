@@ -9,6 +9,7 @@ import logging
 import websocket
 import thread
 import time
+import requests
 
 from message import Message
 from credentials import *
@@ -16,6 +17,12 @@ import handlers
 import config
 if config.CASSANDRA_LOGGING_ENABLE:
 	from cassandra_connection import CassandraConnection
+
+def fetch_wsirc_servers(channel):
+	r = requests.get("https://api.twitch.tv/api/channels/{}/chat_properties".format(channel))
+	ret = r.json().get("web_socket_servers", None)
+	logging.debug(r.json())
+	return ret
 
 class WS_IRC(object):
 	'''
@@ -36,7 +43,7 @@ class WS_IRC(object):
 				from a single connection
 		'''
 		self.channel = channel
-		self.URL = random.choice(config.TWITCH_SERVERS)
+		self.URL = "ws://{}/".format(random.choice(fetch_wsirc_servers(channel)))
 		self.run = False
 		self.limit = limit
 		self.hooks = hooks.Hooks(self)
