@@ -19,5 +19,6 @@ echo "Editing configuration files"
 mv -n ./config.py.CHANGEME ./config.py
 edit ./config.py
 
+
 mv -n ./credentials.py.CHANGEME ./credentials.py
 edit ./credentials.py
