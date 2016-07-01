@@ -23,13 +23,13 @@ if platform.system() == "Windows":
 
 def permissions(mod=False, sub=False):
 	'''Decorator to restrict the use of a command.
-	
+
 	Channel owners are always allowed to use a command.
-	
+
 	Args:
 		mod: Whether or not to allow mods to use the command
 		sub: Whether or not to allow subscribers to use the command
-	
+
 	Returns:
 		A function that only runs only if the message sender meets specific requirements.
 	'''
@@ -47,10 +47,10 @@ def permissions(mod=False, sub=False):
 
 def compose_url(groups):
 	'''Converts a tuple of groups from a Message.link object into a possibly valid URL.
-	
+
 	Args:
 		groups: The tuple from the links member in a Message object.
-	
+
 	Returns:
 		A string that is possibly a valid URL.
 	'''
@@ -63,11 +63,11 @@ def compose_url(groups):
 
 def check_owner(wsirc, msg):
 	'''Check if the message sender is the owner of the current channel.
-	
+
 	Args:
 		wsirc: The WS_IRC object connected to a channel.
 		msg: The message to check the owner of.
-	
+
 	Returns:
 		True if the sender of the message is the owner of the channel.
 	'''
@@ -75,11 +75,11 @@ def check_owner(wsirc, msg):
 
 def compare_url(a, b):
 	'''Compare two urls to see if they're from the same domain(ish).
-	
+
 	Args:
 		a: A string containing a URL.
 		b: A string containing a URL.
-	
+
 	Returns:
 		True if the URL domains are similar enough.
 	'''
@@ -214,10 +214,10 @@ def on_link(wsirc, msg, hooks):
 	url = compose_url(msg.link)
 	logging.warn("%s detected from %s", url, msg.name)
 	try:
-		r = requests.get(url, timeout=10)
+		r = requests.head(url, timeout=10)
 	except Exception as e:
 		logging.error("%s on %s", e, url)
 	else:
-		if not compare_url(url, r.url):
-			wsirc.chat(humanize(r.url))
+		if r.status_code == 301 and not compare_url(url, r.headers['location']):
+			wsirc.chat(humanize(r.headers['location']))
 			logging.info("%s returned %s from %s", url, r.status_code, r.url)
