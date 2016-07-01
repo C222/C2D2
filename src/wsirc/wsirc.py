@@ -94,6 +94,11 @@ class WS_IRC(object):
 			ws: the WebSocketApp object
 		'''
 		logging.warn("Closed connection to %s", self.channel)
+		try:
+			logging.info("Reconnecting to %s...", self.channel)
+			self.start()
+		except:
+			logging.exception("Error reconnecting.")
 
 	def on_error(self, ws, error):
 		'''Callback for the WebSocketApp error event
