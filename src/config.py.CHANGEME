@@ -19,6 +19,7 @@ Attributes:
 
 CHANNELS = []
 BURST_RATE_30 = 30
+QUIET = False
 
 TWITCH_SERVERS = ["ws://192.16.64.174/",
 				  "ws://192.16.64.175/",
@@ -45,3 +46,7 @@ CASSANDRA_USER = ""
 CASSANDRA_PASSWORD = ""
 
 LOGVIEW_PASSWORD = ""
+
+NLP_PREDICT = False
+NLP_SENTIMENT = False
+NLP_SAVE = ""

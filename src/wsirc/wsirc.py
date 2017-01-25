@@ -15,6 +15,7 @@ from message import Message
 from credentials import *
 import handlers
 import config
+import chat_predictor
 if config.CASSANDRA_LOGGING_ENABLE:
 	from cassandra_connection import CassandraConnection
 
@@ -52,6 +53,7 @@ class WS_IRC(object):
 		self.hooks.create_hook_channel("command")
 		self._registered = False
 		self.cass_connect = None
+		self.predictor = chat_predictor.Predictor(channel)
 
 	@staticmethod
 	def is_symbol(c):
@@ -119,6 +121,8 @@ class WS_IRC(object):
 		if message.startswith("PING"):
 			self.send("PONG\n", True)
 		msg = Message(message)
+		if msg.msg.get('nick') == "{}.tmi.twitch.tv".format(NICK):
+			return
 		if msg.chat is not None:
 			self.hooks.run_hooks("chat", msg)
 
@@ -159,6 +163,8 @@ class WS_IRC(object):
 		Returns:
 			True if the chat succeeded
 		'''
+		if config.QUIET:
+			return True
 		structure = "@sent-ts={} PRIVMSG #{} :{}\n"
 		return self.send(structure.format(str(int(time.time())), self.channel, msg), blocking)
 
@@ -169,6 +175,7 @@ class WS_IRC(object):
 		'''
 		if not self._registered:
 			self.hooks.register_hook(handlers.on_chat, "chat")
+			self.hooks.register_hook(self.predictor.on_chat, "chat")
 			self.hooks.register_hook(handlers.on_link, "link")
 			self.hooks.register_hook(handlers.on_command, "command")
 			if config.CASSANDRA_LOGGING_ENABLE:
