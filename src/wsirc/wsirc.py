@@ -19,7 +19,7 @@ if config.CASSANDRA_LOGGING_ENABLE:
 	from cassandra_connection import CassandraConnection
 
 def fetch_wsirc_servers(channel):
-	r = requests.get("https://api.twitch.tv/api/channels/{}/chat_properties".format(channel))
+	r = requests.get("https://api.twitch.tv/api/channels/{}/chat_properties?client_id={}".format(channel, CID))
 	ret = r.json().get("web_socket_servers", None)
 	logging.debug(r.json())
 	return ret
@@ -164,7 +164,7 @@ class WS_IRC(object):
 
 	def register_hooks(self):
 		'''Register callbacks into the hook object.
-		
+
 		Sets a flag to ensure it only runs once.
 		'''
 		if not self._registered:
